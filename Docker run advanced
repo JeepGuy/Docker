@@ -1,0 +1,143 @@
+Docker run command - advanced
+=============================
+
+Docker run command...
+=====================
+ RUN:  - used to run a container
+      - will run from local repo, if not it will go to docker hub and pull the image
+      onto your local disk drive.
+    - If you do a docker run command and the image is not instructed to do anything,
+       it will exit immediately, (first download if not on your local machine).
+       > this example below will immediately will exit.
+docker run unbuntu  (runs version: latests)
+  - However if you pass an argument then the image has something to do and will remain
+    in operation. For instance:
+
+docker run sleep 1000
+ > (1k seconds) which is executing a command on the container.
+  OR:
+
+docker run -it centos bash
+ > will open container and keep it open
+ i.e.- Then you can run a bash command as in: cat /etc/*release*
+       > which will show the os and version info.
+
+docker run -d = RUN IN THE BACKGROUND, so you get back to your terminal.
+
+.
+
+For other versions: must specify a tag separated by a colon.
+============================================================
+
+docker run ubuntu:17.04    - the version is 17.04.
+
+
+RUN - Attach and Detach
+========================
+
+When you run a container in attach mode it will run in the foreground and display
+the results of the container on the screen.
+ - You won't be able to see or do anything else on this terminal window until the
+   docker container stops.
+   Ctrl+C quits the container
+
+docker run <container name>
+
+For Detach mode add the -d option to the docker run command.
+================
+docker run -d <name of container>
+
+To attach or re-attach - run the docker command with the word attach.
+========================
+docker attach <name of container>
+
+RUN - STDIN
+===========
+
+For a prompt app that asks for name ... if run in docker it will not wait
+for standard input.
+
+To run it in Docker: You must map your stdIn off your host to the docker container.
+-------------------
+using -i parameter...
+
+docker run -i <name of container>
+
+Now the docker container listens on the StdIn of the host (keyboard)
+
+Port mapping
+============
+- Remember the underlying host where docker is installed is called
+"docker host" or "docker engine".
+The user accesses the application on the correct port on which Docker is listening.
+
+How docker can be contacted from a web browser...
+
+Two options available:
+
+1. INSIDE the docker host: Use the ip of the docker container. i.e. 172.17.0.2:5000  DEFAULT
+   - This is an internal private bridge docker IP accessible within the docker host.
+   If you open a browser from inside the docker host you can use:
+   TO FIND THE internal IP ADDRESS: RUN THE DOCKER INSPECT COMMAND.
+   docker inspect  <container-id>
+   > look in the network section of the json near the bottom for the IP address.
+      http://172.17.0.2:5000
+2. OUTSIDE the docker host: on your local machine. You can use 192.168.1.2 - in this case.
+
+  For the external IP to work you must have mapped a free port inside the docker container to
+  the docker host.
+  use the -p option e.g.
+
+    docker run -p 80:5000 mmumshad/simple-webapp (name of container image)
+
+    TO FIND THE IP ADDRESS: RUN THE DOCKER INSPECT COMMAND.
+
+   THEN RUN: docker inspect  <container-id> to get the ipaddress and attached the port.
+
+  You can run multiple instances of on application and map them to different ports on the docker host.
+
+    docker run -p 8080:5000 mmumshad/simple-webapp (name of container image)
+
+  or you can run different instances of different applications
+
+    docker run -p 3306:3306 mysql
+
+  and another instance of mysql on a different port.
+
+    docker run -p 8306:3306 mysql
+
+YOU CANNOT map the same port on the docker host to more than one container.
+
+Docker Run - Volume mapping (for persistence)
+===========================
+ - How data is persisted in Docker containers.
+
+docker run mysql
+
+The mysql data is stored inside the container by default at:
+ /var/lib/mysql
+
+ - as soon as you delete the container you lose all the data.
+ To persist the data you would want to map a directory outside the docker container
+ on the docker host to a directory inside the docker container.
+
+docker run -v /opt/datadir:/var/lib/mysql mysql
+              host dir          container dir
+ - this way when the docker container runs it will implicitly mount the external directory
+   to the directory inside the docker container.
+   The data will remain even if you delete the docker container.
+
+The next time you run the mysql container map it to the data directory on the host and all the
+data will be available.
+
+
+
+
+
+
+
+
+
+
+
+....

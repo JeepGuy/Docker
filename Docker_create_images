@@ -1,0 +1,163 @@
+Containerizing and building images
+==================================
+Image verses container: An image is an inert, immutable, file that is a snapshot
+of a container. Images are created with the build command, and they'll produce
+a container when started with the run command.
+
+Should only build custom images if you need functionality not provided by
+the standard supported images in a public repo.
+
+What are you building and why.
+
+Design Process:
+---------------
+
+1. Pick OS
+2. Update apt repo or yum repo (for linux packages)
+3. Install dependencies (repo)
+4. Install specialized dependencies / packages for app (e.g. Python PIP or Jars)
+5. Copy source code for the app to appropriate folder e.g. /opt/xxxxx
+6. Run the server or app.
+
+How to create your own image:
+=============================
+
+1. Create a docker file named "Dockerfile"
+2. Write down the instructions for setting up your application
+   i.e.
+   DockerFile
+   ----------
+   FROM ubuntu   - if you need a certain version - ubuntu:17.04
+
+   RUN apt-get update
+   RUN apt-get install python  >MUST ADD -y so it doesn't wait for your confirm.
+
+   RUN pip install flask (Python framework)
+   RUN pip install flask-mysl
+
+   COPY . /opt/source-code
+
+   ENTRYPOINT FLASK_APP=/opt/source-code/app.py flask run
+
+
+3. run the docker build command
+    > this will create a docker image on your local system.
+    i.e.
+    docker build Dockerfile -t <tag_name = account-name>/path-tol-ocal-file
+
+4. Push the docker image you just created to the repo (usually public)
+    i.e.
+    docker push <account_name>/<application_name>
+      (must build with a tag name first)
+
+    REFINE THE PRIVAE REPO AS A SEPARATE SET OF INSTRUCTIONS:
+     Private repo procedure includes setting up a local repo in your docker configuration
+    and tagging the file as that is what is required for a local repo.
+
+A good practical methodology:
+-----------------------------
+ - Create and run your application in the base image such as ubuntu
+ - Use the history command to find out what you did to create the desired output
+ - Copy those commands to a notepad instance
+ - Use the commands in notepad to create the Dockerfile
+
+
+
+Dockerfile Decomposition
+------------------------
+ - a text file written in an specific format that docker can understand.
+
+ Format: Instruction   -   Argument
+
+ In the above example all of the capitalized words are Instructions
+
+ FROM
+ RUN
+ COPY
+ ENTRYPOINT
+
+Everything to the right of the capitalized words above are Arguments
+
+ubuntu
+apt-get update
+. (local file) /opt/source-code  (to destination directory)
+
+  ---
+In the example above
+
+FROM Ubuntu   = the base OS image: every docker container must have a base image
+                 that was created previously based on an OS.
+                 ALL DOCKER Files must start from a RUN instruction
+
+RUN apt-get (etc) = Instructs docker to run a particular command on those base images.
+                    > to get the updates for the system
+                    > installs required dependencies
+
+COPY . /opt/source-code = copies the local files to the image.
+     (local files at .   image files at /opt/source-code)
+
+ENTRYPOINT = enables the build to specify a command that will be run when the image
+            is run as a container.
+
+Docker Build process:
+=====================
+
+Docker builds images in a layered architecture.
+ - each line of instructions creates a new layer in the docker image with just
+   the changes from the previous layer.
+
+In the example above the layers are:
+
+1. Base Ubuntu Layer ------------------ 120 MB
+2. Changes in the apt packages -------- 306 MB
+3. Changes in the pip packages --------   6.3 MB
+4. Adds source code ------------------- 229 B
+5. Updates the Entrypoint with the "flask" command. --- 0 B
+
+Since each layer only stores the changes from the previous layer it is reflected
+in the size of the layer.
+
+You can see this size information by running
+
+docker history  <image_name>
+
+All the docker build steps are cast therefore you can re-build starting from that
+point incase it fails, or if you were to add new layers in the build process you
+wouldn't have to start in the build process from scratch.
+
+COMMAND: docker build <path to file>
+
+# recommend you build from local directory: "docker build .""
+- to tag it... can rebuild it immediately.
+
+docker build . -t <name>
+
+
+All the layers built are cached by docker.
+ > Therefore if a middle step fails, when you rebuild the image docker starts from
+   the last successful step and begin continues to build the image.
+   - must faster because you don't have to wait for docker to re-build the entire
+     image each time.
+ > especially helpful if you change the source code of your application as it will
+   usually change more frequently.
+
+You can containerize anything. Browsers, Web apps, utilities etc.
+ - In the future you will not longer install anything, instead you will run
+   containers using docker.
+ - when you don't need it anymore you will kill the container without having to
+   do much clean up.
+
+Docker push to Repo
+===================
+
+must tag the build in order to push to the repo.
+must be logged in first to be able to be able to push.
+
+docker push <tag>/<app-name>
+
+....
+
+
+
+
+...

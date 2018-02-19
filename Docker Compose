@@ -1,0 +1,46 @@
+Docker Compose
+==============
+The docker compose file is a dictionary with a list of services.
+Define your application in yaml files.
+
+To create you compose file use  key value pairs in yaml format.
+ > The minimum specification is an image.
+    =  image: <name of repo = hub user>/<name of app>
+
+
+To run: bring up the entire stack use:
+
+  docker compose up
+
+However you must add the port mapping or no one else can access the application.
+ > must specify a ports property.
+
+Example file from previous page's examples.
+
+docker-compose.yml
+-----------------------------
+services:
+     web:
+        image: <name of repo = hub user>/<name of app>
+        ports:
+             - "80:5000"
+                (external port: internal port)
+
+     database:
+         image: "mysql"
+
+         volumes:
+              - /opt/data:/var/lib/mysql
+          (local host directory:directory inside container)
+
+-----------------------------
+
+docker-compose up  - brings up the entire stack
+
+docker-compose stop - stops the containers
+
+docker-compose down - stops everything and removes the containers entirely
+
+
+
+...

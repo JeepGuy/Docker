@@ -1,0 +1,213 @@
+YAML
+====
+
+- All docker compose files are text files or configuration files that are returned
+in a particular format called YAML.
+
+Similar to XML or JSON
+
+A yaml file is used to represent data in this case configuration data.
+
+Key value pairs - seperated by a colon.
+
+Fruit: Apple
+Vegetable: Carrot
+
+etc.
+
+YOU MUST Have a space following the colon differentiatiing the key and the value.
+
+ARRAY/LISTS
+-----------
+
+Fruits:
+- Orange   (The dash indicates it is an element of an array.)
+- Apple
+- Banana
+
+Vegetable:
+- Carrot
+- Cauliglower
+- Tomato
+
+Dictionaries/Map
+=============
+ - a dictionary is a set of properties group together under an item.
+
+Banana:
+    Calories: 105
+    Fat: 0.4 g
+    Carbs: 27 g
+
+You must have an equal number of spaces in front of the properties of a single item.
+ - they are all aligned together - all aligned together.
+
+SPACES in YAML
+==============
+You must have an equal number of spaces in front of the properties of a single item.
+ - they are all aligned together - all aligned together.
+
+> if you have an extra space the value becomes a property of the preceeding item.
+i.e.
+Banana:
+    Calories: 105
+      Fat: 0.4 g
+      Carbs: 27 g
+Fat becomes a property of Calories...
+
+You will receive an syntax error message that states:
+  Mapping values are not allowed here.
+
+Key Value/Dictionary/Lists
+==========================
+- You can have lists containing dictionaries containing lists
+
+Fruits:
+    - Banana           (Element of the list - array)
+        Calories: 105  (dictionaries of nutrition info for each element of the list)
+        Fat: 0.4 g
+        Carbs: 27 g
+
+    - Grape
+        Calories: 62
+        Fat: 0.3 g
+        Carbs: 16 g
+
+
+DICTIONARY vs LIST vs LIST of DICTIONARIES
+==========================================
+
+ALL XML , json, or yaml is used to represent data.
+
+All objects have properties: Color, price, model, engine, etc.
+
+To store data (different information or properties) about an object (car) we use a dictionary.
+ - Defined in a key value format.
+
+
+DICTIONARY
+===========
+You can further break down individual properties into dictionaries (sub dictionaries almost)
+
+e.g.
+
+Color: Blue
+Model: Corvette
+Engine: v8
+Price: $20k
+
+ - e.g. Can add a dictionary to one property in this case model.
+
+Color: Blue
+Model:
+  Name: Corvette
+  Year: 1955
+Engine: v8
+Price: $20k
+
+
+LIST of strings  (array)
+====
+- a list of the same types of objects
+i.e. store six different corvettes names based on color of car.
+
+- Blue corvette
+- Grey corvette
+- Red corvette
+- Green corvette
+- Blue corvette
+- Black corvette
+
+LIST of dictionaries
+====================
+
+Expand each item in the array and replace each name with the dictionary we built earlier.
+
+simple:
+
+-   Color: Blue
+    Model: Corvette
+    Engine: v8
+    Price: $20k
+
+-   Color: Grey
+    Model: Corvette
+    Engine: v8
+    Price: $22k
+
+More complex List of dictionaries with a sub dictionary items:
+-   Color: Blue
+    Model:
+      Name: Corvette
+      Year: 1955
+    Engine: v8
+    Price: $20k
+
+-   Color: Grey
+    Model:
+      Name: Corvette
+      Year: 1955
+    Engine: v8
+    Price: $22k
+
+-   Color: Red
+    Model:
+      Name: Corvette
+      Year: 1955
+    Engine: v8
+    Price: $21k
+
+-   Color: Green
+    Model:
+      Name: Corvette
+      Year: 1955
+    Engine: v8
+    Price: $24k
+
+-   Color: Blue
+    Model:
+      Name: Corvette
+      Year: 1955
+    Engine: v8
+    Price: $25k
+
+NOTES:
+
+  Dictionary is an unordered group of information
+   - the properties in any order
+  List is an ordered group of information
+
+DICTIONARY
+Banana:
+    Calories: 105
+    Fat: 0.4 g
+    Carbs: 27 g
+
+- is the same as-
+
+Banana:
+    Calories: 105
+    Carbs: 27 g   (notice Carbs and Fats are in different order )
+    Fat: 0.4 g
+
+LIST
+-----
+ - ordered so the items must be in the sam order
+
+Vegetable:
+- Carrot
+- Tomato
+- Cauliglower
+
+-is NOT the same as
+
+Vegetable:
+- Carrot
+- Cauliglower  (inverted order of items in the array.)
+- Tomato
+
+# Any line beggining with a hash or octothorpe is ignored adn considered a comment.
+
+
+
+...

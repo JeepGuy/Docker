@@ -1,0 +1,93 @@
+Docker Commands
+run - list - stop - delete(rm) - delete and remove image (rmi) - pull
+
+Note: Public Docker registry - dockerhub on the internet
+
+Docker run command...
+=====================
+ RUN:  - used to run a container
+      - will run from local repo, if not it will go to docker hub and pull the image
+      onto your local disk drive.
+    - If you do a docker run command and the image is not instructed to do anything,
+       it will exit immediately, (first download if not on your local machine).
+       > this example below will immediately will exit.
+docker run unbuntu
+  - However if you pass an argument then the image has something to do and will remain
+    in operation. For instance:
+
+docker run sleep 1000
+ > (1k seconds) which is executing a command on the container.
+  OR:
+
+docker run -it centos bash
+ > will open container and keep it open as in interactive terminal is opened
+ i.e.- Then you can run a bash command as in: cat /etc/*release*
+       > which will show the os and version info.
+
+docker run -d = RUN IN THE BACKGROUND, so you get back to your terminal.
+
+Docker List Command
+===================
+ps: lists all running containers and some basic info about them,
+      including the id and the random name assigned by docker "silly_sammet"
+
+docker ps
+
+ps -a: list all containers running or not. Will list all containers that have run and exited.
+
+docker ps -a
+
+
+docker pull
+============
+ - downloads the image only and stores it on the local system
+
+docker pull <image-name> to only pull the image.
+
+
+Docker Stop Command
+===================
+docker stop silly_sammet <name of container or container ID>
+  - must provide the container ID or the random name
+    Therefore:  must run docker ps - to get the name or id.
+    then you delete it by passing the required parameter.
+* verify accuracy of this stmt: stop with delete = docker rm command
+     -Will stop and remove the image.
+
+Docker Remove Container Command
+===============================
+
+rm  - will remove containers and reclaim disk space.
+
+docker rm <name of container or container ID>
+    - you do not need to use all the chars of the container id,
+      you can use just the first few letters
+      and you can use multiple container ids in the same command.
+
+Docker image command
+=====================
+
+docker image - will list all images downloaded to local
+
+
+Docker Remove Images Command
+============================
+
+docker rmi <name of image>  must be stopped first.
+
+Cannot remove an image if it is still in the containers repo because the image
+has a container dependent on this particular image.
+
+
+Docker Exec Command
+===================
+exec - execute a command on a running container.
+-i = interactive =s keep STDIN open even if not attached
+-t = terminal = Allocate a pseudo-TTY
+
+i.e.
+docker run -d ubuntu sleep 00 (-d is run in the background)
+docker ps (shows container infallable_curie running)
+
+docker exec infallible_curie cat /etc/hosts  (can also use the container_id)
+ - will show the etc/hosts output.

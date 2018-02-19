@@ -1,0 +1,71 @@
+Docker Networking
+=================
+
+Docker installs three networks by default (automaticallY0).
+
+Bridge              none              host
+
+Bridge is the default network a container gets attached to when run.
+  e.g.    docker run unbuntu
+
+    To associate the docker container with any other network
+    - associate the container with the other network using the
+      network parameter (- - network=xxxxxx )
+
+none:  e.g docker run Ubuntu --network=none
+
+host:  docker run ubuntu --network=host
+       (This will associate all containers with port 5000.)
+
+------------------
+
+Bridge network
+---------------
+ - is an private internal network created by docker on the host
+ - all containers attach to the this network by default, and get an internal ip
+ address: usually using the 172.17.x.x/16 range.
+ - the containers can access each other using this internal ip address if required
+
+ Mapping (external access)- To be able to access these containers from the outside world
+ you must map these containers to the docker host as in the other examples.
+
+none:
+-----
+  - the containers are isolated and not available to any other containers on the
+    host.
+
+
+Host network        docker run ubuntu --network=host
+------------
+ - Associate the containers to the host network - always port 5000
+   - this removes any isolation between the network host and the docker container.
+meaning if you were to run a web server on port 5000 it is automatically accessible
+on same port externally without requiring any port mapping.
+
+   Therefore you cannot run multiple containers on the same host on the same port
+   as the ports are all common to the same ports on the host network.
+
+User Defined Networks
+======================
+- Can create isolated networks within the docker host.
+   - By default docker only creates one internal bridge network.
+- You can isolate groups of containers into separate internal networks
+
+CMD:
+----
+      docker network create \
+        --driver bridge \
+        --subnet 182.18.0.0./16 \
+        custom-isolated-network
+
+Run the docker ls command to list all networks?
+-----------------------------------------------
+
+docker network ls
+
+Stdout will list all the networks and shoe=w the names which would include the above
+
+   "customer-isolated-network"
+
+
+...
