@@ -1,0 +1,102 @@
+Mongo
+
+the default location of the data in the Mongo Docker image is: /data/db
+
+docker run -it -v $(pwd)/db:data/db mongo  (last mongo is to run)
+- now this mongo container is running
+
+Identify the name of the docker container (so you can connect to.)
+docker ps -a
+* will yield a container id name, command created status ports and the names
+
+Create another mongoDb container to use as a client.
+
+docker run -it --rm --link=<nameOfFirst_mongo>:mongo mongo /bin/bash
+pass in env vars.
+
+In k8s:
+
+
+
+Cmds:
+
+show dbs
+
+ - will show defaults which are
+  admin (empty)
+  local 0.078GB
+
+Create a new database:
+
+use <New database name> Darkzebra for instance
+and it will switch to that database. It will not show in "show" because nothing is in it.
+
+Type: db will show you currently selected database.
+
+Mongo is JavaScript centric. so use JS conventions and it will be easy.
+
+i.e.
+
+db. and TAB will show all sorts of suggestions
+
+type in a command like addUser and it will give you the code for the addUser method
+
+tables in a traditional DB =  collections.
+
+show collections to show all table equivalents = collections in this database.
+
+Create a collection:
+
+Chose a name for the collection and insert a record.
+Collect ion = quotes
+method insert.
+
+db.quotes.insert()   (This will fail)
+Mongo needs a record called a document inserted at the same time.
+ - Must insert BSON object which is roughly equal to json.
+Has key (field) value pairs.
+
+                   Field    Value        field       value
+db.quotes.insert({author: "Shakespere" , quote: "To be or not to be" })
+
+> This will insert a record into the quotes collection.
+
+NOW type in show dbs and the Darkzebra database will show up.
+Type in show collections and the quotes collection swill show up along with a systems level
+collection called -     system.indexes - it is always there.
+
+to perform functions of the collection (we are still in the collections "table")
+type
+
+db.quotes TAB and all the functions are displayed.
+
+i.e.   db.quotes.count() will show how many documents (records) are in the collection (table)
+
+db.quotes.find()
+
+The record "document" will display on the screen with a field "_id" and either the primary key you specified or a UUID
+which is the primary key.
+
+This is s schema-less database.... You can insert documents that have different fields but just
+inserting into the collection.
+
+you can have sub-document... records that have additional fields like:
+
+db.quotes.insert({quote: "ich bin en Berliner", year: 1963, author: {first: "John", middle: "F." last: "Kennedy"}})
+ in this case the author is another object.
+
+ - Each document is a type of an entity...
+
+To delete the table = collection use the drop method....
+
+db.quotes.drop()
+
+> will return "true"
+
+db represents the currenly selected database.
+
+so db.dropDatabase() would drop the Darkzebra database.
+
+Queries.
+
+The object passed in is called the query document.

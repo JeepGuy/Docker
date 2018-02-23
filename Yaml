@@ -1,14 +1,17 @@
 YAML
 ====
-
-- All docker compose files are text files or configuration files that are returned
+-  text files or configuration files that are returned
 in a particular format called YAML.
+
+- All docker compose files and All ansible playbooks are configuration files
+written in particular format Yaml.
 
 Similar to XML or JSON
 
-A yaml file is used to represent data in this case configuration data.
+A yaml file is used to represent data, in this case configuration data.
 
 Key value pairs - seperated by a colon.
+----------------------------------------
 
 Fruit: Apple
 Vegetable: Carrot
@@ -45,9 +48,10 @@ You must have an equal number of spaces in front of the properties of a single i
 SPACES in YAML
 ==============
 You must have an equal number of spaces in front of the properties of a single item.
- - they are all aligned together - all aligned together.
+ - they are all aligned together.
 
-> if you have an extra space the value becomes a property of the preceeding item.
+> if you have an extra space,
+the value becomes a property of the preceeding item, not the parent dictionary item.
 i.e.
 Banana:
     Calories: 105
@@ -55,7 +59,7 @@ Banana:
       Carbs: 27 g
 Fat becomes a property of Calories...
 
-You will receive an syntax error message that states:
+If you make a spacing error / mistake, you will receive an syntax error message that states:
   Mapping values are not allowed here.
 
 Key Value/Dictionary/Lists
@@ -135,7 +139,7 @@ simple:
     Engine: v8
     Price: $22k
 
-More complex List of dictionaries with a sub dictionary items:
+More complex List of dictionaries with sub dictionary items:
 -   Color: Blue
     Model:
       Name: Corvette
@@ -146,35 +150,36 @@ More complex List of dictionaries with a sub dictionary items:
 -   Color: Grey
     Model:
       Name: Corvette
-      Year: 1955
+      Year: 1985
     Engine: v8
     Price: $22k
 
 -   Color: Red
     Model:
       Name: Corvette
-      Year: 1955
+      Year: 1965
     Engine: v8
     Price: $21k
 
 -   Color: Green
     Model:
       Name: Corvette
-      Year: 1955
+      Year: 1975
     Engine: v8
     Price: $24k
 
 -   Color: Blue
     Model:
       Name: Corvette
-      Year: 1955
+      Year: 1959
     Engine: v8
     Price: $25k
 
-NOTES:
+NOTES:   Ordered verses Unordered items
+------------------------------------------
 
   Dictionary is an unordered group of information
-   - the properties in any order
+   - the properties appear in any order
   List is an ordered group of information
 
 DICTIONARY
@@ -192,7 +197,7 @@ Banana:
 
 LIST
 -----
- - ordered so the items must be in the sam order
+ - ordered so the items must be in the sames order
 
 Vegetable:
 - Carrot
@@ -206,7 +211,8 @@ Vegetable:
 - Cauliglower  (inverted order of items in the array.)
 - Tomato
 
-# Any line beggining with a hash or octothorpe is ignored adn considered a comment.
+#  COMMENT
+Any line beggining with a hash or octothorpe is ignored andß considered a comment.
 
 
 
