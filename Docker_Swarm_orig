@@ -1,0 +1,56 @@
+Docker Swarm
+============
+
+Should not run Docker containers on a single host.
+ - for Production should use a cluster of docker hosts.
+
+Docker Swarm enables you to manage all your docker instances as a single cluster.
+
+Set up
+------
+1. Must have multiple hosts
+2. Must designate one hosts to be a swarm manager or master.
+3. Designate the others to be workers or slaves
+4. Run the Docker Swarm init command on the master node.
+5. Copy the docker swarm join command on the workers and they will join the cluster.
+6. Deploy the service (images etc)
+
+Deploy Services
+---------------
+
+Add new property call Deploy and specify the number of replicas to the
+docker-compose.yaml file.
+
+    deploy:
+        replicas: 5
+
+Example:
+
+docker-compose.yml
+-----------------------------
+services:
+     web:
+        image: <name of repo = hub user>/<name of app>
+        ports:
+             - "80:5000"
+                (external port: internal port)
+
+        deploy:               ###################### added
+            replicas: 5       ###################### added
+
+     database:
+         image: "mysql"
+
+         volumes:
+              - /opt/data:/var/lib/mysql
+          (local host directory:directory inside container)
+
+
+-----------------------------
+
+Run or Deploy:
+--------------
+
+docker stack deploy -c docker-compose.yml (file name)
+
+Load balancing covered elsewhere.
